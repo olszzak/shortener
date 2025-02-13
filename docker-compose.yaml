@@ -1,0 +1,21 @@
+services:
+  be:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - "9000:9000"
+    env_file:
+      - envs/be.env
+    command: >
+      bash -c "wait-for-it -s db:5432 --
+      alembic upgrade head &&
+      uvicorn app.main:create_app --host 0.0.0.0 --port 9000"
+  db:
+    image: postgres:14-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_USER=user
+      - POSTGRES_DB=url_db
