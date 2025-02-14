@@ -15,7 +15,5 @@ services:
     image: postgres:14-alpine
     ports:
       - "5432:5432"
-    environment:
-      - POSTGRES_PASSWORD=pass
-      - POSTGRES_USER=user
-      - POSTGRES_DB=url_db
+    env_file:
+      - envs/db.env
